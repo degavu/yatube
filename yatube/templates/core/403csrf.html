@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Ошибка 403 (csrf error){% endblock %}
+{% block content %}
+  <div class="container py-5">
+    <center>
+      <h1>Доступ запрещен. 403</h1>
+      <h3><b>csrf error</b></h3>
+      <p>Доступ ограничен или ошибка аутентификации</p>
+      <a href="{% url 'posts:index' %}">На главную</a>
+    </center>
+  </div>
+{% endblock %} 

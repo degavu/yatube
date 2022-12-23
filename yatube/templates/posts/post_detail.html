@@ -1,0 +1,62 @@
+{% extends 'base.html' %} 
+{% load thumbnail %}
+
+{% block title %}
+  Пост {{ post.text|truncatechars:30 }}
+{% endblock %}
+
+{% block content %}
+{% load user_filters %}
+  <div class="container  py-5">
+    <div class="row">
+      <aside class="col-12 col-md-3">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Дата публикации:
+            {{ post.pub_date|date:"d E Y" }}
+          </li>
+          <li class="list-group-item">
+            {% if post.group %}
+              Группа: {{ post.group.title }}<br>
+              <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+            {% else %}
+              <b>У записи нет сообщества</b>
+            {% endif %}
+          </li>
+          <li class="list-group-item">
+            Автор:
+            {% if post.author.get_full_name %}
+              {{ post.author.get_full_name }}
+            {% else %}
+              {{ post.author.get_username }}
+            {% endif %}
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Всего постов автора:  <span >{{ post.author.posts.count }}</span>
+          </li>
+          <li class="list-group-item">
+            <a href="{% url 'posts:profile' post.author.username %}">
+              все посты пользователя
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <article class="col-12 col-md-9">
+        {% thumbnail post.image "960" crop="center" upscale=True as im %}
+          <img class="rounded mx-auto d-block" width=90% src="{{ im.url }}">
+        {% endthumbnail %}
+        <p>
+          {{ post.text|linebreaksbr }}
+        </p>
+        {% if user == post.author %}
+          <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
+            редактировать запись
+          </a>
+        {% endif %}
+        {% include 'posts/includes/print_comments.html' %}
+      </article>
+    </div> 
+  </div>
+{% endblock %}
+
+
