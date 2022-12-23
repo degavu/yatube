@@ -7,6 +7,14 @@
           class="d-inline-block align-top" alt="">
           <span style="color:red">Ya</span>tube
       </a>
+      <!--  Форма поиска -->
+      <form class="form-inline" action="{% url 'posts:index' %}">
+        <div  class="form-row">
+        <input name="q" class="form-control-sm" type="search" 
+          placeholder="Поиск" {% if keyword %}value="{{ keyword }}"{% endif %}>
+        <button class="btn" type="submit">Найти</button>
+        </div>
+      </form><!-- конец формы поиска-->
       {% with request.resolver_match.view_name as view_name %}
         <ul class="nav nav-pills nav-fill">
           <li class="nav-item"> 

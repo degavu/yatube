@@ -8,11 +8,19 @@ from .utils import page_objects
 from django.conf import settings as yatube_conf
 
 
-@cache_page(yatube_conf.TIME_CACHE_SECONDS, key_prefix='index_page')
+# @cache_page(yatube_conf.TIME_CACHE_SECONDS, key_prefix='index_page')
 def index(request):
-    post_list = Post.objects.select_related('author')
+    keyword = request.GET.get("q", None)
+    if keyword:
+        post_list = Post.objects.select_related(
+            'author', 'group').filter(text__contains=keyword)
+    else:
+        post_list = Post.objects.select_related('author')
     page_obj = page_objects(request, post_list)
-    context = {'page_obj': page_obj}
+    context = {
+        'page_obj': page_obj,
+        'keyword': keyword,
+    }
     template = 'posts/index.html'
     return render(request, template, context)
 
