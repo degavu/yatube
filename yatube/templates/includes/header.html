@@ -1,57 +1,72 @@
 {% load static %}
 <header>
-  <nav class="navbar navbar-light" style="background-color: lightskyblue">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'posts:index' %}">
-        <img src="{% static 'img/logo.png' %}" width="30" height="30"
-          class="d-inline-block align-top" alt="">
-          <span style="color:red">Ya</span>tube
-      </a>
-      <!--  Форма поиска -->
-      <form class="form-inline" action="{% url 'posts:index' %}">
-        <div  class="form-row">
-        <input name="q" class="form-control-sm" type="search" 
-          placeholder="Поиск" {% if keyword %}value="{{ keyword }}"{% endif %}>
-        <button class="btn" type="submit">Найти</button>
-        </div>
-      </form><!-- конец формы поиска-->
-      {% with request.resolver_match.view_name as view_name %}
-        <ul class="nav nav-pills nav-fill">
-          <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}"
-              href="{% url 'about:author' %}">Об авторе</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}"
-              href="{% url 'about:tech' %}">Технологии</a>
-          </li>
-          {% if request.user.is_authenticated %}
+<!--  <nav class="navbar navbar-dark bg-dark fixed-top" style=""> -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #1240AB;">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'posts:index' %}">
+      <img src="{% static 'img/logo.png' %}" width="30" height="30"
+        class="d-inline-block align-top" alt="">
+        <span style="color:red">Ya</span>tube
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% with request.resolver_match.view_name as view_name %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}"
+            href="{% url 'about:tech' %}">Технологии</a>
+        </li>
+        <li class="nav-item"> 
+          <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}"
+            href="{% url 'about:author' %}">Об авторе</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item"> 
+          <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}"
+            href="{% url 'posts:post_create' %}">Новая запись</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ user.username }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li class="nav-item"> 
-              <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}"
-                href="{% url 'posts:post_create' %}">Новая запись</a>
-            </li>
-            <li class="nav-item"> 
-              <a class="nav-link link-light {% if view_name  == 'users:password_change' %}active{% endif %}"
+              <a class="dropdown-item {% if view_name  == 'users:password_change' %}active{% endif %}"
                 href="{% url 'users:password_change' %}">Изменить пароль</a>
             </li>
             <li class="nav-item"> 
-              <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
+              <a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a>
             </li>
-            <li class = "nav-item">
-              Пользователь:<br> {{ user.username }}
-            </li>
-          {% else %}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item disabled" href="#">Профиль</a></li>
+          </ul>
+        </li>
+        {% else %}        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Авторизация
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li class="nav-item"> 
-              <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}"
+              <a class="dropdown-item {% if view_name  == 'users:login' %}active{% endif %}"
                 href="{% url 'users:login' %}">Войти</a>
             </li>
             <li class="nav-item"> 
-              <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}"
+              <a class="dropdown-item {% if view_name  == 'users:signup' %}active{% endif %}"
                 href="{% url 'users:signup' %}">Регистрация</a>
             </li>
-          {% endif %}
-        </ul>
-      {% endwith %} 
+          </ul>
+        </li>
+        {% endif %}
+      </ul>
+      <form class="d-flex" role="search" action="{% url 'posts:index' %}">
+        <input name="q" class="form-control me-2" type="search" placeholder="Поиск" {% if keyword %}value="{{ keyword }}"{% endif %} aria-label="Поиск">
+        <button class="btn btn-outline-success" type="submit">Поиск</button>
+      </form>
     </div>
-  </nav>
+    {% endwith %} 
+  </div>
+</nav>
 </header>
