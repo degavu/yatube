@@ -13,3 +13,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 1, 'cols': 40}),
+        }

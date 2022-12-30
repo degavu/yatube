@@ -6,16 +6,9 @@
 {% block content %}
   <div class="container  py-5">
     {% include 'posts/includes/switcher.html' %}
-    {% for post in page_obj %}
-    {% include 'posts/includes/print_post.html' %}
-      {% if post.group%}
-        <a href="{% url 'posts:group_list' post.group.slug %}"
-        >Все посты <b>{{ post.group.title}}</b></a>
-      {% else %}
-        <b>У записи нет сообщества</b>
-      {% endif %}
-      {% if not forloop.last %}<hr>{% endif %}
-    {% endfor %}
+      {% for post in page_obj %}
+        {% include 'posts/includes/print_post.html' with detail_print='index_page' %}
+      {% endfor %}
     {% include 'posts/includes/paginator.html' %}
   </div>
 {% endblock %}

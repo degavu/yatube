@@ -6,13 +6,16 @@
 
 {% block content %}
   <div class="container  py-5">
-    <h1>{{ page_obj.0.group.title }}</h1>
-    <p>{{ page_obj.0.group.description }}</p>
-    <hr>
+    <div class="shadow p-3 mb-5 card text-center" style="background-color: #EDEDED">
+      <h2 class="card-title">
+        {{ page_obj.0.group.title }}
+      </h2>
+      <p class="card-text">
+        {{ page_obj.0.group.description }}
+      </p>
+    </div> 
     {% for post in page_obj %}
-      {% include 'posts/includes/print_post.html' %}
-      <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
-      {% if not forloop.last %}<hr>{% endif %} 
+      {% include 'posts/includes/print_post.html' with detail_print='group_page' %}
     {% endfor %}  
     {% include 'posts/includes/paginator.html' %}      
   </div>  

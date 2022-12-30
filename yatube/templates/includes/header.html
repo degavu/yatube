@@ -36,11 +36,13 @@
               <a class="dropdown-item {% if view_name  == 'users:password_change' %}active{% endif %}"
                 href="{% url 'users:password_change' %}">Изменить пароль</a>
             </li>
+            <li><a class="dropdown-item"
+              href="{% url 'posts:profile' user.username %}">Профиль</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
             <li class="nav-item"> 
               <a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a>
             </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item disabled" href="#">Профиль</a></li>
           </ul>
         </li>
         {% else %}        
@@ -63,7 +65,7 @@
       </ul>
       <form class="d-flex" role="search" action="{% url 'posts:index' %}">
         <input name="q" class="form-control me-2" type="search" placeholder="Поиск" {% if keyword %}value="{{ keyword }}"{% endif %} aria-label="Поиск">
-        <button class="btn btn-outline-success" type="submit">Поиск</button>
+        <button class="btn btn-primary btn-sm" type="submit">Поиск</button>
       </form>
     </div>
     {% endwith %} 
